@@ -1,0 +1,37 @@
+---
+title: "Data Products - Project 2"
+author: "Prasad P"
+date: "21 November 2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Summary Slide
+
+- IN this project the emmission data of Exploratory Data Analysis is used
+- All the records of Baltimore county and on-Road type is considered
+- Emmission numbers are aggregated at the year level
+
+## Slide with R Code
+
+```{r readfile, echo = TRUE}
+emmission_data <- readRDS("C:/Users/prasad.pande/Documents/summarySCC_PM25.rds")
+Classify_data <- readRDS("C:/Users/prasad.pande/Documents/Source_Classification_Code.rds")
+
+emmission_data_blt <- subset(emmission_data, fips=="24510" & type == "ON-ROAD")
+# 5 - How have emissions from motor vehicle sources changed from 1999-2008 in Baltimore City?
+library(dplyr)
+library(ggplot2)
+library(plotly)
+Overall_emmissions <- with(emmission_data_blt, aggregate(Emissions, by = list(year), sum))
+```
+
+## Slide with Plot
+
+```{r plot}
+plot_ly(data=Overall_emmissions, x= ~ Overall_emmissions$Group.1, y= ~ Overall_emmissions$x, type = 'bar')
+```
+
